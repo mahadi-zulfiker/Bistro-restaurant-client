@@ -6,6 +6,7 @@ const NavBar = () => {
     const navItems = <>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/menu">Menu</Link></li>
+        <li><Link to="/order">Order Food</Link></li>
     </>
 
     return (
@@ -21,7 +22,7 @@ const NavBar = () => {
                         </ul>
                     </div>
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
-                        <img className="w-16" src={logo} alt="" />
+                        <img className="md:w-16 w-12" src={logo} alt="" />
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
