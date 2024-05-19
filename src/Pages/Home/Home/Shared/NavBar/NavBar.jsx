@@ -9,10 +9,10 @@ const NavBar = () => {
 
     const handleLogOut = () => {
         logOut()
-        .then(() => {})
-        .catch(error => {
-            console.log(error);
-        })
+            .then(() => { })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     const navItems = <>
@@ -22,6 +22,7 @@ const NavBar = () => {
         <li><Link to="/secret">Secret</Link></li>
         {
             user ? <>
+                <span>{user?.displayName}</span>
                 <button onClick={handleLogOut} className="btn btn-ghost">Log Out</button>
             </> : <>
                 <li><Link to="/login">Login</Link></li>
