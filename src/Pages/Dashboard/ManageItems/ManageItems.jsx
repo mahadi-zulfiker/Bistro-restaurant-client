@@ -3,10 +3,11 @@ import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import useMenu from "../../../Hooks/useMenu";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const ManageItems = () => {
-    const [menu, ,refetch] = useMenu();
+    const [menu, , refetch] = useMenu();
     const axiosSecure = useAxiosSecure();
 
     const handleDeleteItem = (item) => {
@@ -70,7 +71,9 @@ const ManageItems = () => {
                                     <td>{item.name}</td>
                                     <td>{item.price}</td>
                                     <th>
-                                        <button className="btn btn-ghost btn-md bg- bg-orange-500"><FaEdit className="text-white text-xl"></FaEdit></button>
+                                        <Link to={`/dashboard/updateItem/${item._id}`}>
+                                            <button className="btn btn-ghost btn-md bg- bg-orange-500"><FaEdit className="text-white text-xl"></FaEdit></button>
+                                        </Link>
                                     </th>
                                     <td>
                                         <button onClick={() => handleDeleteItem(item)} className="btn btn-ghost btn-lg"><FaTrashAlt className="text-red-600"></FaTrashAlt></button>
