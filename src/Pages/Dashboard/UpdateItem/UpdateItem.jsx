@@ -8,10 +8,10 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const UpdateItem = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const { name, category, recipe, price, } = useLoaderData();
 
-    const { register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
 
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -91,7 +91,7 @@ const UpdateItem = () => {
                                 <span className="label-text">Price*</span>
                             </div>
                             <input {...register('price', { required: true })}
-                            defaultValue={price}
+                                defaultValue={price}
                                 type="number" placeholder="price" className="input input-bordered w-full" />
                         </label>
                     </div>
@@ -100,9 +100,9 @@ const UpdateItem = () => {
                         <div className="label">
                             <span className="label-text">Recipe Details</span>
                         </div>
-                        <textarea {...register('recipe')} 
-                        defaultValue={recipe}
-                        className="textarea textarea-bordered h-24" placeholder="Bio"></textarea>
+                        <textarea {...register('recipe')}
+                            defaultValue={recipe}
+                            className="textarea textarea-bordered h-24" placeholder="Bio"></textarea>
                     </label>
                     <div className="form-control w-full my-5">
                         <input {...register('image', { required: true })} type="file" className="file-input w-full max-w-xs" />
