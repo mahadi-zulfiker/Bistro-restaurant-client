@@ -23,6 +23,9 @@ const Dashboard = () => {
                                 <NavLink to="/dashboard/addItems"><FaUtensils></FaUtensils>Add Items</NavLink>
                             </li>
                             <li>
+                                <NavLink to="/dashboard/cart"><FaShoppingCart></FaShoppingCart>My Cart ({cart.length})</NavLink>
+                            </li>
+                            <li>
                                 <NavLink to="/dashboard/manageItems"><FaList></FaList>Manage Items</NavLink>
                             </li>
                             <li>
@@ -30,6 +33,9 @@ const Dashboard = () => {
                             </li>
                             <li>
                                 <NavLink to="/dashboard/users"><FaUsers></FaUsers>All Users</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/paymentHistory"><FaList></FaList>Payment History</NavLink>
                             </li>
                         </> :
                             <>
@@ -46,7 +52,7 @@ const Dashboard = () => {
                                     <NavLink to="/dashboard/review"><FaAd></FaAd>Add Reviews</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/dashboard/bookings"><FaList></FaList>My Bookings</NavLink>
+                                    <NavLink to="/dashboard/paymentHistory"><FaList></FaList>Payment History</NavLink>
                                 </li>
                             </>
                     }
