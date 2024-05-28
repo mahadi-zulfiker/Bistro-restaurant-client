@@ -1,11 +1,27 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useCart from "../../../Hooks/useCart";
+import useAuth from "../../../Hooks/useAuth";
 
 
 const CheckOutFrom = () => {
     const [error, setError] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
+    const { user } = useAuth();
     const elements = useElements();
+    const axiosSecure = useAxiosSecure();
+    const [cart] = useCart();
+    const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+    useEffect(() => {
+        axiosSecure.post('/create-payment-intent', { price: totalPrice })
+            .then(res => {
+                setClientSecret(res.data.clientSecret);
+            })
+    }, [axiosSecure, totalPrice]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -15,22 +31,43 @@ const CheckOutFrom = () => {
         }
         const card = elements.getElement(CardElement);
 
-        if(card === null){
+        if (card === null) {
             return;
         }
 
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
         })
 
-        if(error){
+        if (error) {
             console.log('payment method', error);
             setError(error.message);
         }
-        else{
+        else {
             console.log('payment method', paymentMethod);
             setError('');
+        }
+        // confirm payment
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous'
+                }
+            }
+        })
+
+        if (confirmError) {
+            console.log('confirm error');
+        }
+        else {
+            console.log('payment intent', paymentIntent);
+            if(paymentIntent.status === 'succeeded'){
+                console.log('transaction id', paymentIntent.id);
+                setTransactionId(paymentIntent.id);
+            }
         }
     }
 
@@ -52,12 +89,13 @@ const CheckOutFrom = () => {
                     },
                 }}
             />
-            <button className="btn btn-sm btn-primary my-4" type="submit" disabled={!stripe}>
+            <button className="btn btn-sm btn-primary my-4" type="submit" disabled={!stripe || !clientSecret}>
                 Pay
             </button>
             <p className="text-red-600">
                 {error}
             </p>
+            {transactionId && <p className="text-green-600">Your transaction id: {transactionId}</p>}
         </form>
     );
 };
