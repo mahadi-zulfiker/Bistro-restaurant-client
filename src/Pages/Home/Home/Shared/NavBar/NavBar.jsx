@@ -68,9 +68,6 @@ const NavBar = () => {
                         {navItems}
                     </ul>
                 </div>
-                <div className="navbar-end">
-                    <a className="btn btn-outline btn-warning">Appointment</a>
-                </div>
             </div>
         </div>
     );
